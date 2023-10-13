@@ -274,7 +274,6 @@ class Ui_MainWindow(object):
         file = open("outputs/choose_image.txt", "r")
         image = cv2.imread(file.read())
         cv2.imwrite("outputs/choose_image.png", image)
-        # image = cv2.imread(file)
         self.imgcLabel.setPixmap(QtGui.QPixmap("outputs/choose_image.png"))
         file.close()
         if self.imgLabel1.isHidden()==True:
@@ -292,10 +291,6 @@ class Ui_MainWindow(object):
 
 
     def on_click_his_equalize(self):
-        # filename = histogram_equalize(self.imgcLabel.pixmap())
-        # self.imgLabel1.setPixmap(QtGui.QPixmap(histogram_equalize(filename)))
-        # filename = askopenfilename()
-        #self.imgcLabel.setPixmap(QtGui.QPixmap(filename))
         self.histogram_equalize()
         self.show_labels_image()
         self.imgLabel1.setPixmap(QtGui.QPixmap("outputs/Histogram_Equalize.png"))
@@ -441,11 +436,6 @@ class Ui_MainWindow(object):
         plt.hist(img2.flatten(), 256, [0, 256], color='r')
         plt.savefig('outputs/output_histogram.png')
 
-    # def histequal(self,img):
-    #     equ=cv2.equaflizeHist(cv2.cvtColor(img,cv2.COLOR_BGR2GRAY))
-    #     equ=cv2.cvtColor((equ,cv2.COLOR_BGR2GRAY))
-    #     return equ
-
     def directional_filter(self):
         file = open("outputs/choose_image.txt", "r")
         image = cv2.imread(file.read())
@@ -463,12 +453,6 @@ class Ui_MainWindow(object):
         img2 = cv2.filter2D(noise_image, -1, b)
         img3 = cv2.filter2D(noise_image, -1, c)
         img4 = cv2.filter2D(noise_image, -1, d)
-
-        # plt.plot(), plt.imshow(noise_image), plt.title('Noise Image'), plt.savefig("outputs/randn_df.png")
-        # plt.plot(), plt.imshow(img1), plt.title('Image with Filter 1'), plt.savefig("outputs/img1_df.png")
-        # plt.plot(), plt.imshow(img2), plt.title('Image with Filter 2'), plt.savefig("outputs/img2_df.png")
-        # plt.subplot(3, 2, 5), plt.imshow(img3), plt.title('Image with Filter 3')
-        # plt.subplot(3, 2, 6), plt.imshow(img4), plt.title('Image with Filter 4')
 
         cv2.imwrite("outputs/randn_df.png", noise_image)
         cv2.imwrite("outputs/img1_df.png", img1)
@@ -502,9 +486,6 @@ class Ui_MainWindow(object):
         file.close()
         noise_image = noise(image, 0.05)
         new = med_threshold(image, 3, 255)
-        # plt.plot(), plt.imshow(image), plt.title('Original Image')
-        # plt.plot(), plt.imshow(noise_image), plt.title('Noise'), plt.savefig("outputs/noise_mt.png")
-        # plt.plot(), plt.imshow(new), plt.title('Median Filter Threshold'), plt.savefig("outputs/median_filter_threshold.png")
         cv2.imwrite("outputs/noise_mt.png", noise_image)
         cv2.imwrite("outputs/median_filter_threshold.png", new)
 
@@ -518,9 +499,7 @@ class Ui_MainWindow(object):
         blur = cv2.blur(img, (13, 13))
         gaussian_blur = cv2.GaussianBlur(img, (37, 37), 0)
 
-        # plt.plot(), plt.imshow(blur), plt.title("Blur Image"), plt.savefig("outputs/blur.png")
         cv2.imwrite("outputs/blur.png", blur)
-        # plt.plot(), plt.title(gaussian_blur), plt.title("Gaussian Blur Image"), plt.savefig("outputs/gaussian_blur.png")
         cv2.imwrite("outputs/gaussian_blur.png", gaussian_blur)
 
         def corr(img, mask):
@@ -550,10 +529,6 @@ class Ui_MainWindow(object):
                     gaussian[x + m, y + n] = (1 / x1) * x2
             return gaussian
 
-        # file = open("outputs/choose_image.txt", 'r')
-        # img = skimage.io.imread(file.read())
-        # file.close()
-        # img = skimage.color.rgb2gray(img)
         file = open("outputs/choose_image.txt", "r")
         image = cv2.imread(file.read())
         file.close()
@@ -565,7 +540,6 @@ class Ui_MainWindow(object):
         edg = Ig1 - Ig2
         alpha = 30
         sharped = img + edg * alpha
-        # plt.plot(), plt.imshow(sharped), plt.title('Sharpen Image'), plt.savefig("outputs/sharpen.png"), plt.xticks(), plt.yticks()
         cv2.imwrite("outputs/sharpen_image.png", sharped)
     def Moire_pattern(self):
         file = open("outputs/choose_image.txt", "r")
@@ -613,14 +587,9 @@ class Ui_MainWindow(object):
         file.close()
         noise_r1 = np.copy(img).astype(np.float64)
         noise_r1 += img.std() * 0.5 * np.random.standard_normal(img.shape)
-        # noise_r1 = cv2.cvtColor(noise_r1, cv2.GRAY2BGR)
         blurred_r1 = ndimage.gaussian_filter(noise_r1, sigma=3)
         median_r1 = ndimage.median_filter(noise_r1, size=5)
         wiener_r1 = signal.wiener(noise_r1, (5, 5))
-        # plt.plot(), plt.imshow(noise_r1), plt.title("Noise"), plt.savefig("outputs/noise_r1.png")
-        # plt.plot(), plt.imshow(blurred_r1), plt.title("Blurred"), plt.savefig("outputs/blurred_r1.png")
-        # plt.plot(), plt.imshow(median_r1), plt.title("Median"), plt.savefig("outputs/median_r1.png")
-        # plt.plot(), plt.imshow(wiener_r1), plt.title("Wiener"), plt.savefig("outputs/wiener_r1.png")
         cv2.imwrite("outputs/noise_r1.png", noise_r1)
         cv2.imwrite("outputs/blurred_r1.png", blurred_r1)
         cv2.imwrite("outputs/median_r1.png", median_r1)
